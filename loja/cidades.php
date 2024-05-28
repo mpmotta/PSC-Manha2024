@@ -6,9 +6,12 @@
     <title>Loja - Cidades</title>
 </head>
 <body>
+
+    <?php require_once('menu.php'); ?>
+
     <h1>Cidades</h1>
 
-    <form method="POST" action="controller/salvarCidade.php" >
+    <form method="POST" action="controller/salvarCidade.php?inserir" >
         <label>Nome: </label>
         <input type="text" placeholder="Digite o nome da cidade..." name="txtNome" />
         <br>
@@ -16,6 +19,18 @@
         <input type="reset" value="Limpar" />
     </form>
     <hr>
+
+<?php
+    include_once("model/clsCidade.php");
+    include_once("dao/clsCidadeDAO.php");
+    include_once("dao/clsConexao.php");
+
+    $cidades = CidadeDAO::getCidades();
+
+    if( count($cidades) == 0 ){
+        echo "<h1>Nenhuma cidade cadastrada!</h1>";
+    }else{
+?>
     <table border="1">
         <tr>
             <th>Código</th>
@@ -24,21 +39,24 @@
             <th>Excluir</th>
         </tr>
 
-        <tr>
-            <td>1</td>
-            <td>Itati</td>
-            <td><button>Editar</button></td>
-            <td><button>Excluir</button></td>
-        </tr>
-
-        <tr>
-            <td>2</td>
-            <td>Tangamandápio</td>
-            <td><button>Editar</button></td>
-            <td><button>Excluir</button></td>
-        </tr>
         <?php
-            if( isset($_REQUEST["nome"])){
+
+        foreach( $cidades as $cid ){
+            $id = $cid->id;
+            
+            echo "  <tr>
+                        <td>$id</td>
+                        <td>".$cid->nome."</td>
+                        <td><button>Editar</button></td>
+                        <td><a href='controller/salvarCidade.php?excluir&id=$id'>
+                                <button>Excluir</button></a></td>
+                    </tr>";
+        }
+        
+                
+
+    
+       /*     if( isset($_REQUEST["nome"])){
                 $nome = $_REQUEST["nome"];
                 echo "  <tr>
                             <td>3</td>
@@ -47,12 +65,20 @@
                             <td><button>Excluir</button></td>
                         </tr>";
             }
+            */
         ?>
     </table>
     
     <?php
+
+        }
+
         if( isset($_REQUEST["nomeVazio"])){
             echo "<script> alert('O campo nome não pode ser vazio!'); </script>";
+        }
+
+        if( isset($_REQUEST["cidadeExcluida"])){
+            echo "<script> alert('Cidade excluída com sucesso!'); </script>";
         }
 
         if( isset($_REQUEST["nome"])){
