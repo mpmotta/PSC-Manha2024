@@ -14,22 +14,25 @@ class ClienteDAO{
     }
 
 
-    public static function editar( $cliente ){
-        $id = $cliente->id;
-        $nome = $cliente->nome;
-        $nascimento = $cliente->nascimento;
-        $salario = $cliente->salario;
-        $idCidade = $cliente->cidade->id;
+    public static function editar($cliente, $nasc, $sal, $cidade, $idCliente ){
+        
+        $nome = $cliente;
+        $nascimento = $nasc;
+        $salario = $sal;
+        $codCidade = $cidade;
+        $id = $idCliente;
 
         $sql = "UPDATE cliente SET 
-                nome = '$nome' ,
-                nascimento = '$nascimento' ,
-                salario = $salario ,
-                codCidade = $idCidade
-                WHERE id = $id ;" ;
+                nome = '$nome',
+                nascimento = '$nascimento',
+                salario = '$salario',
+                codCidade = '$codCidade'
+                WHERE id = $id;" ;
         Conexao::executar( $sql );
     }
 
+
+    
     public static function excluir( $idCliente ){
         $sql = "DELETE FROM cliente WHERE id = $idCliente;" ;
         Conexao::executar( $sql );
@@ -63,5 +66,24 @@ class ClienteDAO{
         }
         return $lista;
     }
+
+    public static function getClienteById($id){
+        $sql = "SELECT p.nome, p.salario, p.nascimento, p.codCidade
+                from cliente p WHERE p.id = $id";
+                
+        $result = Conexao::consultar( $sql );
+        if( $result != NULL ){
+            $row = mysqli_fetch_assoc($result);
+            if($row){
+                $cliente = new Cliente();
+                $cliente->nome = $row['nome'];
+                $cliente->nascimento = $row['nascimento'];
+                $cliente->salario = $row['salario'];
+                $cliente->cidade = $row['codCidade'];
+                return $cliente;
+            }
+        }
+        return null;
+    }  
 
 }

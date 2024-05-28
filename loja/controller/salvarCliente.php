@@ -36,4 +36,15 @@ if( isset( $_REQUEST["excluir"] ) &&  isset( $_REQUEST["id"] ) ){
     ClienteDAO::excluir( $id );
     header( "Location: ../clientes.php?clienteExcluido");
 }
+
+if( isset( $_REQUEST["editar"] ) &&  isset( $_REQUEST["id"] ) ){
+    $id = $_REQUEST["id"] ;
+    $nome = $_POST['txtNome'];
+    $nascimento = $_POST['txtNascimento'];
+    $salario = $_POST['txtSalario'];
+    $cidade = $_POST['txtCodCidade'];
+  
+    ClienteDAO::editar($nome, $nascimento, $salario, $cidade, $id );
+    header( "Location: ../clientes.php?clienteEditado");
+}
     

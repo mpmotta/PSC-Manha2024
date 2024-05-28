@@ -6,10 +6,10 @@ class CidadeDAO{
         $id = Conexao::executarComRetornoId( $sql );
         return $id;
     }
-    public static function editar( $cidade ){
-        $id = $cidade->id;
-        $nome = $cidade->nome;
-        $sql = "UPDATE cidade SET nome = '$nome' WHERE id = $id ;" ;
+    public static function editar( $cidade, $id ){
+        $id_cidade = $id;
+        $nome = $cidade;
+        $sql = "UPDATE cidade SET nome = '$nome' WHERE id = $id_cidade;" ;
         Conexao::executar( $sql );
     }
 
@@ -32,5 +32,19 @@ class CidadeDAO{
         }
         return $lista;
     }
+
+    public static function getCidadeById($id){
+        $sql = "SELECT id , nome FROM cidade WHERE id = $id";
+        $result = Conexao::consultar( $sql );
+        if( $result != NULL ){
+            $row = mysqli_fetch_assoc($result);
+            if($row){
+                $cidade = new Cidade();
+                $cidade->nome = $row['nome'];
+                return $cidade;
+            }
+        }
+        return null;
+    }  
 
 }

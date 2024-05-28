@@ -16,6 +16,13 @@ if( isset($_REQUEST["inserir"]) ){
     }
 }
 
+if( isset( $_REQUEST["editar"] ) &&  isset( $_REQUEST["id"] ) ){
+    $nome = $_POST["txtNome"];
+    $id = $_REQUEST["id"];
+    CidadeDAO::editar( $nome, $id );
+    header( "Location: ../cidades.php?cidadeEditada");
+}
+
 if( isset( $_REQUEST["excluir"] ) &&  isset( $_REQUEST["id"] ) ){
     $id = $_REQUEST["id"] ;
     CidadeDAO::excluir( $id );
