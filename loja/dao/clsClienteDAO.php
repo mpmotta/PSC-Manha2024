@@ -1,20 +1,22 @@
 <?php
 class ClienteDAO{
 
-    public static function inserir( $cliente ){
+// METODOS ESCREVER BANCO
+
+//INSERIR
+    public static function inserir($cliente){
         $nome = $cliente->nome;
         $nascimento = $cliente->nascimento;
         $salario = $cliente->salario;
         $idCidade = $cliente->cidade->id;
-        
-        $sql = "INSERT INTO cliente (nome, nascimento, salario, codCidade) VALUES 
-                ('$nome' , '$nascimento' , $salario , $idCidade );" ;
-        $id = Conexao::executarComRetornoId( $sql );
+
+        $sql = "INSERT INTO cliente (nome, nascimento, salario, codCidade) VALUES ('$nome', '$nascimento', $salario, $idCidade);";
+        $id = Conexao::executarComRetornoId($sql);
         return $id;
     }
 
-
-    public static function editar($cliente, $nasc, $sal, $cidade, $idCliente ){
+//EDITAR
+    public static function editar($cliente, $nasc, $sal, $cidade, $idCliente){
         
         $nome = $cliente;
         $nascimento = $nasc;
@@ -32,36 +34,38 @@ class ClienteDAO{
     }
 
 
-    
-    public static function excluir( $idCliente ){
-        $sql = "DELETE FROM cliente WHERE id = $idCliente;" ;
-        Conexao::executar( $sql );
-    }
+//EXCLUIR
+    public static function excluir($idCliente){
+            $sql = "DELETE FROM cliente WHERE id = $idCliente;";
+            Conexao::executar($sql);
+            }
 
+// METODO CONSULTAR BANCO
     public static function getClientes(){
-        $sql = "SELECT p.id , p.nome, p.salario, DATE_FORMAT( p.nascimento , '%d/%m/%Y') AS nascimento ,
-                        c.id AS codCid , c.nome AS nomeCid
-                FROM cliente p 
-                LEFT JOIN cidade c ON c.id = p.codCidade
-                ORDER BY p.nome";
+        //retorna todas os clientes
+        $sql = "SELECT p.id, p.nome, p.salario, DATE_FORMAT(p.nascimento , '%d/%m/%Y') AS nascimento,
+                        c.id AS codCid, c.nome AS nomeCid
+            FROM cliente p 
+            LEFT JOIN cidade c ON c.id = p.codCidade 
+            ORDER BY p.nome";
         
-        $result = Conexao::consultar( $sql );
+        $result = Conexao::consultar($sql);
         $lista = new ArrayObject();
-        if( $result != NULL ){
-            while( list($_id , $_nome, $_salario , $_nascimento, $_codCid , $_nomeCid) = mysqli_fetch_row($result) ){
-
-                $cid = new Cidade();
+        if($result != NULL){
+            while(list($_id, $_nome, $_salario, $_nascimento, $_codCid, $_nomeCid) = mysqli_fetch_row($result)){
+                $cid=new Cidade();
                 $cid->id = $_codCid;
                 $cid->nome = $_nomeCid;
 
-                $cli = new Cliente();
-                $cli->id = $_id;
-                $cli->nome = $_nome;
-                $cli->salario = $_salario;
-                $cli->nascimento = $_nascimento;
-                $cli->cidade = $cid;
+            $cli= new Cliente();
+            $cli->id=$_id;
+            $cli->nome=$_nome;
+            $cli->salario=$_salario;
+            $cli->nascimento=$_nascimento;
+            $cli->cidade=$cid;       
 
-                $lista->append( $cli );
+
+                $lista->append($cli);
             }
         }
         return $lista;
@@ -69,8 +73,8 @@ class ClienteDAO{
 
     public static function getClienteById($id){
         $sql = "SELECT p.nome, p.salario, p.nascimento, p.codCidade
-                from cliente p WHERE p.id = $id";
-                
+        from cliente p WHERE p.id = $id";
+        
         $result = Conexao::consultar( $sql );
         if( $result != NULL ){
             $row = mysqli_fetch_assoc($result);
@@ -81,9 +85,29 @@ class ClienteDAO{
                 $cliente->salario = $row['salario'];
                 $cliente->cidade = $row['codCidade'];
                 return $cliente;
+    }
+}
+return null;
+    }
+
+    
+    public static function getCidadeByIdCliente($id){
+   
+        $sql = "SELECT  p.codCidade,
+                        c.id, c.nome AS nomeCidade
+        from cliente p 
+        LEFT JOIN cidade c ON c.id = p.codCidade
+        WHERE p.id = $id";
+        
+        $result = Conexao::consultar( $sql );
+        if( $result != NULL ){
+            $row = mysqli_fetch_assoc($result);
+            if($row){
+                $cidade = new Cliente();
+                $cidade->nome = $row['nomeCidade'];
+                return $cidade;
             }
         }
         return null;
-    }  
-
+            }
 }

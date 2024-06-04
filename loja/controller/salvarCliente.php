@@ -8,34 +8,41 @@ include_once("../model/clsCidade.php");
 include_once("../dao/clsClienteDAO.php");
 include_once("../model/clsCliente.php");
 
-if( isset($_REQUEST["inserir"]) ){
+//INSERIR CLIENTE
+
+if(isset($_REQUEST["inserir"])){
     $nome = $_POST["txtNome"];
-    if( strlen( $nome ) == 0 ){
-        header( "Location: ../clientes.php?nomeVazio");
+    if(strlen($nome) == 0 ){
+        header("Location: ../clientes.php?nomeVazio");
     }else{
-        $cid = new Cidade( );
+      
+        $cid = new Cidade();
         $cid->id = $_POST["txtCidade"];
 
-        $cli = new Cliente();
+        $cli=new Cliente();
         $cli->nome = $nome;
 
         $salario = $_POST["txtSalario"];
-        $salario = str_replace("," , "." , $salario);
+        $salario = str_replace(",", ".", $salario);
 
         $cli->salario = $salario;
         $cli->nascimento = $_POST["txtNascimento"];
         $cli->cidade = $cid;
 
-        ClienteDAO::inserir( $cli );
-        header( "Location: ../clientes.php?nome=$nome");
+        ClienteDAO:: inserir($cli);
+        header("Location: ../clientes.php?nome=$nome");
     }
 }
 
-if( isset( $_REQUEST["excluir"] ) &&  isset( $_REQUEST["id"] ) ){
-    $id = $_REQUEST["id"] ;
-    ClienteDAO::excluir( $id );
-    header( "Location: ../clientes.php?clienteExcluido");
+// EXCLUIR CLIENTE
+
+if(isset($_REQUEST["excluir"]) && isset($_REQUEST["id"])){
+    $id = $_REQUEST["id"];
+    ClienteDAO:: excluir($id);
+    header("Location: ../clientes.php?clienteExcluido");
 }
+
+// EDITAR CLIENTE
 
 if( isset( $_REQUEST["editar"] ) &&  isset( $_REQUEST["id"] ) ){
     $id = $_REQUEST["id"] ;
@@ -47,4 +54,3 @@ if( isset( $_REQUEST["editar"] ) &&  isset( $_REQUEST["id"] ) ){
     ClienteDAO::editar($nome, $nascimento, $salario, $cidade, $id );
     header( "Location: ../clientes.php?clienteEditado");
 }
-    
