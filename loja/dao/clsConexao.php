@@ -6,7 +6,7 @@ class Conexao {
         $banco = "market_2024_1";
         $local = "localhost";
         $user = "root";
-        $senha = "usbw";
+        $senha = "";
         $conn = mysqli_connect ($local, $user, $senha, $banco);
         if ($conn){
             return $conn;
