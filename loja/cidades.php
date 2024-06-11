@@ -9,18 +9,20 @@ if( !isset($_SESSION["logado"]) || $_SESSION["logado"] == false ){
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja - Cidades</title>
 </head>
+
 <body>
 
     <?php require_once('menu.php'); ?>
 
     <h1>Cidades</h1>
 
-    <form method="POST" action="controller/salvarCidade.php?inserir" >
+    <form method="POST" action="controller/salvarCidade.php?inserir">
         <label>Nome: </label>
         <input type="text" placeholder="Digite o nome da cidade..." name="txtNome" />
         <br>
@@ -29,7 +31,7 @@ if( !isset($_SESSION["logado"]) || $_SESSION["logado"] == false ){
     </form>
     <hr>
 
-<?php
+    <?php
     include_once("model/clsCidade.php");
     include_once("dao/clsCidadeDAO.php");
     include_once("dao/clsConexao.php");
@@ -79,8 +81,8 @@ if( !isset($_SESSION["logado"]) || $_SESSION["logado"] == false ){
     </table>
 
     <hr>
-    <a href="relatorioCidades.php" target="_blanck">Gerar Relatório</a>
-    
+    <a href="relatorioCidades.php" target="_blank">Gerar Relatório</a>
+
     <?php
 
         }
@@ -100,6 +102,7 @@ if( !isset($_SESSION["logado"]) || $_SESSION["logado"] == false ){
     ?>
 
 </body>
+
 </html>
 
 <?php

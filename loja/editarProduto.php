@@ -30,6 +30,9 @@
         <label>Nome: </label>
         <input type="text" value="<?=$produto->nome ?>" name="txtNomeProduto" />
         <br><br>
+        <label>Descrição: </label>
+        <textarea rows="10" cols="50" name="txtDescrProduto"><?=$produto->descricao ?></textarea>
+        <br><br>
         <label>Valor: </label>
         <input type="number" value="<?=$produto->valor ?>" step="0.01" name="txtValorProduto" />
         <br><br>

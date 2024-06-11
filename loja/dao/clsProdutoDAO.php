@@ -6,22 +6,25 @@ class ProdutoDAO{
 //INSERIR
     public static function inserir($produto){
         $nome = $produto->nome;
+        $descricao = $produto->descricao;
         $valor = $produto->valor;
 
-        $sql = "INSERT INTO produto (nome, valor) VALUES ('$nome', '$valor');";
+        $sql = "INSERT INTO produto (nome, descricao, valor) VALUES ('$nome', '$descricao', '$valor');";
         $id = Conexao::executarComRetornoId($sql);
         return $id;
     }
 
 //EDITAR
-    public static function editar($produto, $val, $idProduto){
+    public static function editar($produto, $descr, $val, $idProduto){
         
         $nome = $produto;
+        $descricao = $descr;
         $valor = $val;
         $id = $idProduto;
 
         $sql = "UPDATE produto SET 
                 nome = '$nome',
+                descricao = '$descricao',
                 valor = '$valor'
                 WHERE id = $id;" ;
         Conexao::executar( $sql );
@@ -37,17 +40,18 @@ class ProdutoDAO{
 // METODO CONSULTAR BANCO
     public static function getProdutos(){
         //retorna todas os produtos
-        $sql = "SELECT p.id, p.nome, p.valor
+        $sql = "SELECT p.id, p.nome, p.descricao, p.valor
             FROM produto p 
             ORDER BY p.nome";
         
         $result = Conexao::consultar($sql);
         $lista = new ArrayObject();
         if($result != NULL){
-            while(list($_id, $_nome, $_valor) = mysqli_fetch_row($result)){
+            while(list($_id, $_nome, $_descricao, $_valor) = mysqli_fetch_row($result)){
                 $produto=new Produto();
                 $produto->id = $_id;
                 $produto->nome = $_nome;
+                $produto->descricao = $_descricao;
                 $produto->valor = $_valor;
 
                 $lista->append($produto);
@@ -57,7 +61,7 @@ class ProdutoDAO{
     }
 
     public static function getProdutoById($id){
-        $sql = "SELECT p.nome, p.valor
+        $sql = "SELECT p.nome, p.descricao, p.valor
         from produto p WHERE p.id = $id";
         
         $result = Conexao::consultar( $sql );
@@ -66,6 +70,7 @@ class ProdutoDAO{
             if($row){
                 $produto = new Produto();
                 $produto->nome = $row['nome'];
+                $produto->descricao = $row['descricao'];
                 $produto->valor = $row['valor'];
 
                 return $produto;

@@ -87,11 +87,12 @@
         <?php
             foreach($clientes as $cli){
                 $id = $cli->id;
-              
+                $salario = "R$ " . number_format($cli->salario,2,",",".");
             echo "  <tr>
                             <td>$id</td>
                             <td>".$cli->nome."</td>
-                            <td>".$cli->salario."</td>
+                            
+                            <td>".$salario."</td>
                             <td>".$cli->nascimento."</td>
                             <td>".$cli->cidade->nome."</td>
                             <td><a href='editarCliente.php?id=$id'><button>Editar</button></a></td>
@@ -103,13 +104,16 @@
 
             }
         ?>
-    </table>
-    <tr>
-        <h3>Foram cadastrados <?php echo count($clientes)?> clientes até
-            <?php date_default_timezone_set("America/Sao_Paulo"); 
-                         echo date("d/m/Y")?></h3>
-    </tr>
 
+        <tr>
+            <h3>Foram cadastrados <?php echo count($clientes)?> clientes até
+                <?php date_default_timezone_set("America/Sao_Paulo"); 
+                         echo date("d/m/Y")?></h3>
+        </tr>
+
+    </table>
+    <hr>
+    <a href="relatorioClientes.php" target="_blank">Gerar Relatório</a>
     <?php
     }
         if(isset($_REQUEST["nomeVazio"])){

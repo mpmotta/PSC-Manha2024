@@ -26,6 +26,9 @@
         <label>Nome:</label>
         <input type="text" placeholder="Nome do produto..." name="txtNomeProduto" />
         <br><br>
+        <label>Descrição:</label>
+        <textarea rows="10" cols="50" name=" txtDescrProduto"></textarea>
+        <br><br>
         <label>Valor:</label>
         <input type="number" step="0.01" name="txtValorProduto" />
         <br><br>
@@ -51,6 +54,7 @@
         <tr>
             <th>Código</th>
             <th>Nome</th>
+            <th>Descrição</th>
             <th>Valor</th>
             <th>Editar</th>
             <th>Excluir</th>
@@ -60,10 +64,12 @@
             foreach($produtos as $produto){
                 $id = $produto->id;
                 $nome=$produto->nome;
+                $descricao=$produto->descricao;
                 $valor=$produto->valor;
                 echo "  <tr>
                             <td>$id</td>
                             <td>$nome</td>
+                            <td>$descricao</td>
                             <td>$valor</td>
                             <td><a href='editarProduto.php?id=$id'><button>Editar</button></a></td>
                         
@@ -86,6 +92,9 @@
     }
         if(isset($_REQUEST["nomeVazio"])){
             echo "<script> alert('O campo nome não pode ser vazio!');</script>";
+        }
+        if(isset($_REQUEST["descricaoVazio"])){
+            echo "<script> alert('O campo descrição não pode ser vazio!');</script>";
         }
         if(isset($_REQUEST["valorVazio"])){
             echo "<script> alert('O campo valor não pode ser vazio!');</script>";
