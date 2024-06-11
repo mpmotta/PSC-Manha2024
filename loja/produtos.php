@@ -87,7 +87,8 @@
             <?php date_default_timezone_set("America/Sao_Paulo"); 
                          echo date("d/m/Y")?></h3>
     </tr>
-
+    <hr>
+    <a href="relatorioProdutos.php" target="_blank">Gerar Relatório</a>
     <?php
     }
         if(isset($_REQUEST["nomeVazio"])){
